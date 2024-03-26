@@ -1,0 +1,40 @@
+{
+   "title": "Raspberry Pi LoRa Transmit initialization file",
+   "description": [ "Define runtime configurations",
+                    "RADIO_LORA_*: See SX128x.hpp for definitions"],
+   "config": {
+      
+      "APP_CFE_NAME": "LORA_RX",
+      "APP_PERF_ID":  128,
+      
+      "APP_CMD_PIPE_NAME":  "LORA_RX_CMD",
+      "APP_CMD_PIPE_DEPTH": 10,
+      
+      "LORA_RX_CMD_TOPICID": 6249,
+      "BC_SCH_1_HZ_TOPICID": 6224,
+      "LORA_RX_STATUS_TLM_TOPICID": 2166,
+      "LORA_RX_RADIO_TLM_TOPICID": 2167,
+      
+      "CHILD_NAME":       "LORA_RX_DEMO",
+      "CHILD_PERF_ID":    44,
+      "CHILD_STACK_SIZE": 16384,
+      "CHILD_PRIORITY":   80,
+
+      "RADIO_SPI_DEV_STR": "/dev/spidev0.0",
+      "RADIO_SPI_DEV_NUM": 0,
+      "RADIO_SPI_SPEED":   8000000,      
+      "RADIO_PIN_BUSY":  27,
+      "RADIO_PIN_NRST":  26,
+      "RADIO_PIN_NSS":   20,
+      "RADIO_PIN_DIO1":  16,
+      "RADIO_PIN_DIO2":  -1,
+      "RADIO_PIN_DIO3":  -1,
+      "RADIO_PIN_TX_EN": 24,
+      "RADIO_PIN_RX_EN": 25,
+
+      "RADIO_FREQUENCY": 2400,
+      "RADIO_LORA_SF":      4,
+      "RADIO_LORA_BW":     10,
+      "RADIO_LORA_CR":    112
+  }
+}

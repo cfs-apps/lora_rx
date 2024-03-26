@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+  
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+  
+    You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+      
+    Purpose: 
+      This describes all interface objects for the LoRa Receive application 
+
+    Notes:
+      1. This document adheres to the Electronic Data Sheet (EDS) XML schema 
+         as prescribed in CCSDS book 876.0. 
+
+-->
+<PackageFile xmlns="http://www.ccsds.org/schema/sois/seds">
+  <Package name="LORA_RX" shortDescription="Raspberry Pi LoRa Receive App">
+    <DataTypeSet>
+
+      <!--***********************************-->
+      <!--**** DataTypeSet:  Entry Types ****-->
+      <!--***********************************-->
+
+         
+      <!--***************************************-->
+      <!--**** DataTypeSet: Command Payloads ****-->
+      <!--***************************************-->
+
+      <ContainerDataType name="SetSpiSpeed_CmdPayload">
+        <EntryList>
+          <Entry name="Speed"   type="BASE_TYPES/uint32"  shortDescription="Clock speed in Hz" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetRadioFrequency_CmdPayload">
+        <EntryList>
+          <Entry name="Frequency"   type="BASE_TYPES/uint32"  shortDescription="Radio frequency MHz" />
+        </EntryList>
+      </ContainerDataType>
+      
+      <ContainerDataType name="SetLoRaParams_CmdPayload" shortDescription="See SX128x.hpp ModulationParams_t">
+        <EntryList>
+          <Entry name="SpreadingFactor" type="SX128X/LoRaSpreadingFactor" shortDescription="SF (5-12)" />
+          <Entry name="Bandwidth"       type="SX128X/LoRaBandwidth"       shortDescription="Bandwidth (0-3: 1600,800,400,200)kHz)" />
+          <Entry name="CodingRate"      type="SX128X/LoRaCodingRate"      shortDescription="CR (4_[5,6,7,8,L5,L6,L7])" />
+          <Entry name="TCXO"            type="APP_C_FW/BooleanUint8"      shortDescription="TCXOEN (0-1)" />
+          <Entry name="HSM"             type="APP_C_FW/BooleanUint8"      shortDescription="HSM (0-1)" />
+          <Entry name="Power"           type="BASE_TYPES/uint16"          shortDescription="Power (-15 to 13, 3-26 dBm)" />
+          <Entry name="Mod"             type="BASE_TYPES/uint16"          shortDescription="LoRa, FLRC, FSK (0-2)" />
+          <Entry name="CRC"             type="APP_C_FW/BooleanUint8"      shortDescription="Cyclic Redundancy Code on or off" />
+          <Entry name="LDRO"            type="APP_C_FW/BooleanUint8"      shortDescription="Low Data Rate Optimization on or off" />
+          <Entry name="Node"            type="BASE_TYPES/uint16"          shortDescription="Node byte (sender ID)" />
+          <Entry name="Dest"            type="BASE_TYPES/uint16"          shortDescription="Destination byte (recipient ID)" />
+          <Entry name="TXPA"            type="APP_C_FW/BooleanUint8"      shortDescription="Switch Power Amplifier on or off" />
+          <Entry name="RXLNA"           type="APP_C_FW/BooleanUint8"      shortDescription="Switch Low Noise Amplifier on or off" />
+        </EntryList>
+      </ContainerDataType>
+         
+      <!--*****************************************-->
+      <!--**** DataTypeSet: Telemetry Payloads ****-->
+      <!--*****************************************-->
+    
+      <ContainerDataType name="StatusTlm_Payload" shortDescription="App's state and status summary">
+        <EntryList>
+          <Entry name="ValidCmdCnt"    type="BASE_TYPES/uint16"     />
+          <Entry name="InvalidCmdCnt"  type="BASE_TYPES/uint16"     />
+        </EntryList>
+      </ContainerDataType>
+      
+      <ContainerDataType name="RadioTlm_Payload" shortDescription="Radio configuration settings">
+        <EntryList>
+          <Entry name="SpiDevStr"       type="BASE_TYPES/PathName"  shortDescription="Linux device path string" />
+          <Entry name="SpiDevNum"       type="BASE_TYPES/uint16"    />
+          <Entry name="SpiSpeed"        type="BASE_TYPES/uint32"    />
+          <Entry name="RadioPinBusy"    type="BASE_TYPES/uint8"     />
+          <Entry name="RadioPinNrst"    type="BASE_TYPES/uint8"     />
+          <Entry name="RadioPinNss"     type="BASE_TYPES/uint8"     />
+          <Entry name="RadioPinDio1"    type="BASE_TYPES/uint8"     />
+          <Entry name="RadioPinDio2"    type="BASE_TYPES/uint8"     />
+          <Entry name="RadioPinDio3"    type="BASE_TYPES/uint8"     />
+          <Entry name="RadioPinTxEn"    type="BASE_TYPES/uint8"     />
+          <Entry name="RadioPinRxEn"    type="BASE_TYPES/uint8"     />
+          <Entry name="RadioFrequency"  type="BASE_TYPES/uint32"    />          
+          <Entry name="LoRaSpreadingFactor" type="SX128X/LoRaSpreadingFactor" />
+          <Entry name="LoRaBandwidth"       type="SX128X/LoRaBandwidth"       />
+          <Entry name="LoRaCodingRate"      type="SX128X/LoRaCodingRate"      />
+          <Entry name="TCXO"            type="APP_C_FW/BooleanUint8"      shortDescription="TCXOEN (0-1)" />
+          <Entry name="HSM"             type="APP_C_FW/BooleanUint8"      shortDescription="HSM (0-1)" />
+          <Entry name="Power"           type="BASE_TYPES/uint16"          shortDescription="Power (-15 to 13, 3-26 dBm)" />
+          <Entry name="Mod"             type="BASE_TYPES/uint16"          shortDescription="LoRa, FLRC, FSK (0-2)" />
+          <Entry name="CRC"             type="APP_C_FW/BooleanUint8"      shortDescription="Cyclic Redundancy Code on or off" />
+          <Entry name="LDRO"            type="APP_C_FW/BooleanUint8"      shortDescription="Low Data Rate Optimization on or off" />
+          <Entry name="Node"            type="BASE_TYPES/uint16"          shortDescription="Node byte (sender ID)" />
+          <Entry name="Dest"            type="BASE_TYPES/uint16"          shortDescription="Destination byte (recipient ID)" />
+          <Entry name="TXPA"            type="APP_C_FW/BooleanUint8"      shortDescription="Switch Power Amplifier on or off" />
+          <Entry name="RXLNA"           type="APP_C_FW/BooleanUint8"      shortDescription="Switch Low Noise Amplifier on or off" />
+        </EntryList>
+      </ContainerDataType>
+        
+      <!--**************************************-->
+      <!--**** DataTypeSet: Command Packets ****-->
+      <!--**************************************-->
+
+      <ContainerDataType name="CommandBase" baseType="CFE_HDR/CommandHeader">
+      </ContainerDataType>
+
+      <ContainerDataType name="Noop" baseType="CommandBase" shortDescription="Generate an info event message with app version">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="${APP_C_FW/NOOP_CC}" />
+        </ConstraintSet>
+      </ContainerDataType>
+
+      <ContainerDataType name="Reset" baseType="CommandBase" shortDescription="Reset app to a known state">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="${APP_C_FW/RESET_CC}" />
+        </ConstraintSet>
+      </ContainerDataType>
+
+      <ContainerDataType name="InitRadio" baseType="CommandBase" shortDescription="">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="${APP_C_FW/APP_BASE_CC} + 0" />
+        </ConstraintSet>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetSpiSpeed" baseType="CommandBase" shortDescription="">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="${APP_C_FW/APP_BASE_CC} + 1" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="SetSpiSpeed_CmdPayload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SendRadioTlm" baseType="CommandBase" shortDescription="">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="${APP_C_FW/APP_BASE_CC} + 2" />
+        </ConstraintSet>
+      </ContainerDataType>
+      
+      <ContainerDataType name="SetRadioFrequency" baseType="CommandBase" shortDescription="">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="${APP_C_FW/APP_BASE_CC} + 3" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="SetRadioFrequency_CmdPayload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+      <ContainerDataType name="SetLoRaParams" baseType="CommandBase" shortDescription="">
+        <ConstraintSet>
+          <ValueConstraint entry="Sec.FunctionCode" value="${APP_C_FW/APP_BASE_CC} + 4" />
+        </ConstraintSet>
+        <EntryList>
+          <Entry type="SetLoRaParams_CmdPayload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+      
+      <!--****************************************-->
+      <!--**** DataTypeSet: Telemetry Packets ****-->
+      <!--****************************************-->
+
+      <ContainerDataType name="StatusTlm" baseType="CFE_HDR/TelemetryHeader">
+        <EntryList>
+          <Entry type="StatusTlm_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+     
+      <ContainerDataType name="RadioTlm" baseType="CFE_HDR/TelemetryHeader">
+        <EntryList>
+          <Entry type="RadioTlm_Payload" name="Payload" />
+        </EntryList>
+      </ContainerDataType>
+
+    </DataTypeSet>
+    
+    <ComponentSet>
+      <Component name="Application">
+
+        <!--***********************************-->
+        <!--**** Component Set: Interfaces ****-->
+        <!--***********************************-->
+      
+        <RequiredInterfaceSet>
+        
+          <Interface name="CMD" shortDescription="Software bus telecommand interface" type="CFE_SB/Telecommand">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TelecommandDataType" type="CommandBase" />
+            </GenericTypeMapSet>
+          </Interface>
+          
+          <Interface name="STATUS_TLM" shortDescription="Software bus status telemetry interface" type="CFE_SB/Telemetry">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TelemetryDataType" type="StatusTlm" />
+            </GenericTypeMapSet>
+          </Interface>
+          
+          <Interface name="RADIO_TLM" shortDescription="Software bus status telemetry interface" type="CFE_SB/Telemetry">
+            <GenericTypeMapSet>
+              <GenericTypeMap name="TelemetryDataType" type="RadioTlm" />
+            </GenericTypeMapSet>
+          </Interface>
+
+        </RequiredInterfaceSet>
+
+        <!--***************************************-->
+        <!--**** Component Set: Implementation ****-->
+        <!--***************************************-->
+
+        <Implementation>
+          <VariableSet>
+            <Variable type="BASE_TYPES/uint16" readOnly="true" name="CmdTopicId"       initialValue="${CFE_MISSION/LORA_RX_CMD_TOPICID}" />
+            <Variable type="BASE_TYPES/uint16" readOnly="true" name="StatusTlmTopicId" initialValue="${CFE_MISSION/LORA_RX_STATUS_TLM_TOPICID}" />
+            <Variable type="BASE_TYPES/uint16" readOnly="true" name="RadioTlmTopicId"  initialValue="${CFE_MISSION/LORA_RX_RADIO_TLM_TOPICID}" />
+          </VariableSet>
+          <!-- Assign fixed numbers to the "TopicId" parameter of each interface -->
+          <ParameterMapSet>          
+            <ParameterMap interface="CMD"        parameter="TopicId" variableRef="CmdTopicId" />
+            <ParameterMap interface="STATUS_TLM" parameter="TopicId" variableRef="StatusTlmTopicId" />
+            <ParameterMap interface="RADIO_TLM"  parameter="TopicId" variableRef="RadioTlmTopicId" />
+          </ParameterMapSet>
+        </Implementation>
+      </Component>
+    </ComponentSet>
+    
+  </Package>
+</PackageFile>
